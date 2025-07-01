@@ -91,7 +91,7 @@ export const updateIncident = async (req: AuthRequest, res: Response): Promise<a
         const { details, priority, reporter_name, reporter_type } = req.body;
         const user_id = req.user!.id;
 
-        if (!id || !details || !priority || !reporter_name || reporter_type) {
+        if (!id || !details || !priority || !reporter_name || !reporter_type) {
             return res.status(400).json({ message: "required fields are missing" })
         }
 
