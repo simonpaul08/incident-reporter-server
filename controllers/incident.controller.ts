@@ -88,10 +88,10 @@ export const updateIncident = async (req: AuthRequest, res: Response): Promise<a
 
     try {
         const { id } = req.params;
-        const { details, priority, status } = req.body;
+        const { details, priority, reporter_name, reporter_type } = req.body;
         const user_id = req.user!.id;
 
-        if (!id || !details || !priority || !status) {
+        if (!id || !details || !priority || !reporter_name || reporter_type) {
             return res.status(400).json({ message: "required fields are missing" })
         }
 
@@ -109,16 +109,16 @@ export const updateIncident = async (req: AuthRequest, res: Response): Promise<a
             return res.status(400).json({ message: 'Closed incidents cannot be edited' });
         }
 
-        if (status === "closed") {
-            // update the is_editable
-            await db.update(incident)
-                .set({ is_editable: false })
-                .where(eq(incident.id, Number(id)))
-                .returning();
-        }
+        // if (status === "closed") {
+        //     // update the is_editable
+        //     await db.update(incident)
+        //         .set({ is_editable: false })
+        //         .where(eq(incident.id, Number(id)))
+        //         .returning();
+        // }
 
         const updated = await db.update(incident)
-            .set({ details, priority, status })
+            .set({ details, priority })
             .where(eq(incident.id, record[0].id))
             .returning();
 
