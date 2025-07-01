@@ -1,0 +1,1 @@
+ALTER TABLE "incident" DROP COLUMN "reporter_email";
